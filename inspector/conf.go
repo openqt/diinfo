@@ -3,6 +3,7 @@ package inspector
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/heroku/docker-registry-client/registry"
 	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
@@ -14,6 +15,8 @@ type Setting struct {
 	Registry string
 	Username string
 	Password string
+
+	hub *registry.Registry
 }
 
 var Settings Setting
@@ -40,4 +43,8 @@ func Configuration() {
 		CheckError(err)
 		fmt.Println(string(data))
 	}
+
+	hub, err := registry.New(Settings.Registry, Settings.Username, Settings.Password)
+	CheckError(err)
+	Settings.hub = hub
 }

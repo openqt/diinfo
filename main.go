@@ -29,7 +29,7 @@ func main() {
 		Use:   "ls",
 		Short: "List images in docker registry",
 		Run: func(cmd *cobra.Command, args []string) {
-			inspector.ShowImage()
+			inspector.ShowList()
 		},
 	}
 
