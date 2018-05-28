@@ -16,6 +16,8 @@ type Setting struct {
 	Username string
 	Password string
 
+	Json bool
+
 	hub *registry.Registry
 }
 
