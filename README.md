@@ -14,8 +14,25 @@ Docker Image Information Inspector
     wide: 80
     ```
 
-## Examples
+## Docker
+- Get from https://hub.docker.com/r/openqt/diinfo/
+    ```
+    docker pull openqt/diinfo
+    ```
 
+- Run
+    In the docker there is a default configuration file in /diinfo.yml,
+    You should mount yourself file, as below
+
+    ```
+    $ docker run -v $PWD/diinfo.yml:/diinfo.yml diinfo ls
+    1.	alpine: [latest]
+    2.	hello-world: [test latest]
+    3.	nginx: [latest]
+    4.	redis: [2 test latest]
+    ```
+
+## Examples
 - help
     ```
     $ ./diinfo
