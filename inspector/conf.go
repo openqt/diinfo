@@ -17,6 +17,8 @@ type Setting struct {
 	Password string
 
 	Json bool
+	Wide int
+	All  bool
 
 	hub *registry.Registry
 }
@@ -49,4 +51,8 @@ func Configuration() {
 	hub, err := registry.New(Settings.Registry, Settings.Username, Settings.Password)
 	CheckError(err)
 	Settings.hub = hub
+
+	Settings.Json = viper.GetBool("json")
+	Settings.Wide = viper.GetInt("wide")
+	Settings.All = viper.GetBool("all")
 }

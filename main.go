@@ -47,7 +47,7 @@ func ls() *cobra.Command {
 
 func info() *cobra.Command {
 	infoCmd := cobra.Command{
-		Use:   "info",
+		Use:   "show",
 		Short: "Show docker image internals",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
@@ -58,6 +58,16 @@ func info() *cobra.Command {
 	key := "json"
 	infoCmd.PersistentFlags().BoolVarP(&inspector.Settings.Json, key, key[:1],
 		false, "Show data in JSON style")
+	viper.BindPFlag(key, infoCmd.PersistentFlags().Lookup(key))
+
+	key = "wide"
+	infoCmd.PersistentFlags().IntVarP(&inspector.Settings.Wide, key, key[:1],
+		0, "Length of command line (0 is no limited)")
+	viper.BindPFlag(key, infoCmd.PersistentFlags().Lookup(key))
+
+	key = "all"
+	infoCmd.PersistentFlags().BoolVarP(&inspector.Settings.All, key, key[:1],
+		false, "Show zero size layers")
 	viper.BindPFlag(key, infoCmd.PersistentFlags().Lookup(key))
 
 	return &infoCmd

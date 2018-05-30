@@ -1,13 +1,13 @@
 package inspector
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/olekukonko/tablewriter"
+	"github.com/opencontainers/go-digest"
 	"io/ioutil"
-	"os"
+	"regexp"
 	"strings"
-	"bytes"
 )
 
 type Config struct {
@@ -26,9 +26,8 @@ type History struct {
 	CreatedBy string `json:"created_by"`
 	Empty     bool   `json:"empty_layer"`
 
-	Digest  string
-	Size    int64
-	Command string
+	Digest string
+	Size   int64
 }
 
 type FullConfig struct {
@@ -40,22 +39,32 @@ type FullConfig struct {
 	Os            string
 }
 
+func getConfig(repo string, digest digest.Digest) []byte {
+	reader, err := Settings.hub.DownloadLayer(repo, digest)
+	CheckError(err)
+	data, err := ioutil.ReadAll(reader)
+	CheckError(err)
+
+	return data
+}
+
 func InfoImage(repo, tag string) FullConfig {
 	manifest, err := Settings.hub.ManifestV2(repo, tag)
 	CheckError(err)
 
-	reader, err := Settings.hub.DownloadLayer(repo, manifest.Config.Digest)
-	CheckError(err)
-
-	data, err := ioutil.ReadAll(reader)
-	CheckError(err)
-
 	config := FullConfig{}
-	json.Unmarshal(data, &config)
+	json.Unmarshal(getConfig(repo, manifest.Config.Digest), &config)
 
-	t, _ := json.MarshalIndent(config, "", "  ")
-	fmt.Println(string(t))
+	for i, j := 0, 0; i < len(config.History); i++ {
+		history := &config.History[i]
+		if !history.Empty {
+			layer := manifest.Layers[j]
+			history.Digest = string(layer.Digest)
+			history.Size = layer.Size
 
+			j++
+		}
+	}
 	return config
 }
 
@@ -69,14 +78,8 @@ func InfoImageOrigin(repo, tag string) {
 	fmt.Println("---------- Manifest ----------")
 	fmt.Println(string(data))
 
-	reader, err := Settings.hub.DownloadLayer(repo, manifest.Config.Digest)
-	CheckError(err)
-
-	data, err = ioutil.ReadAll(reader)
-	CheckError(err)
-
 	var buf bytes.Buffer
-	err = json.Indent(&buf, data, "", "  ")
+	err = json.Indent(&buf, getConfig(repo, manifest.Config.Digest), "", "  ")
 	CheckError(err)
 
 	fmt.Println("---------- Configuration ----------")
@@ -92,23 +95,44 @@ func ShowInfo(args []string) {
 		if len(ns) > 1 {
 			tag = ns[1]
 		} else {
-			tag = "latest"
+			tag = "latest" // default tag
 		}
 
 		if Settings.Json {
 			InfoImageOrigin(repo, tag)
 		} else {
+			var total int64
+
 			InfoImage(repo, tag)
 
-			table := tablewriter.NewWriter(os.Stdout)
-			table.SetHeader([]string{"No", "Size", "Command"})
-			table.SetFooter([]string{"Total", "", ""})
-			table.Render()
-		}
+			config := InfoImage(repo, tag)
 
-		//for n, i := range InfoImage(repo, tag) {
-		//	table.Append(i)
-		//	fmt.Printf("%d.\t%s\n", n+1, i)
-		//}
+			// print headers
+			fmt.Printf("%v.\t% 10v\t%s\n", "No", "Size", "Command [/bin/sh -c]")
+			fmt.Printf("%v\t% 10v\t%s\n", "---", "----", "--------------------")
+			n := 0
+			for _, i := range config.History {
+				cmd := i.CreatedBy
+				if Settings.Wide > 0 { // show with limited length
+					reg := regexp.MustCompile(`\s+`) // normalize control characters
+					cmd = reg.ReplaceAllString(cmd, " ")
+
+					if strings.HasPrefix(cmd, "/bin/sh -c ") {
+						cmd = cmd[11:] // remove fix prefix to reduce length
+					}
+					if len(cmd) > Settings.Wide { // truncate and mark with ...
+						cmd = cmd[:Settings.Wide] + " ..."
+					}
+				}
+				if Settings.All || i.Size > 0 { // show non-zero layers by default
+					total += i.Size
+					fmt.Printf("%v.\t% 10v\t%s\n", n+1, i.Size, cmd)
+					n++
+				}
+			}
+			// print total size by MB
+			fmt.Printf("------------------\n")
+			fmt.Printf("%s image size: %.2f MB\n", arg, float64(total)/1024/1024)
+		}
 	}
 }

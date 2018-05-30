@@ -1,2 +1,4 @@
 verbose: false
 registry: http://t2cp.io:5000/
+json: false
+wide: 80

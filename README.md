@@ -6,13 +6,36 @@ Docker Image Information Inspector
     1. /etc/diinfo/diinfo.yml
     2. ./diinfo.yml
 
-- Content
+    - Content
     ```
     verbose: false
     registry: http://t2cp.io:5000/
+    json: false
+    wide: 80
     ```
 
 ## Examples
+
+- help
+    ```
+    $ ./diinfo
+    Docker Image Information Inspector
+
+    Usage:
+      diinfo [command]
+
+    Available Commands:
+      help        Help about any command
+      ls          List images in docker registry
+      show        Show docker image internals
+
+    Flags:
+      -h, --help              help for diinfo
+      -r, --registry string   Docker registry address
+      -v, --verbose           Show logs
+
+    Use "diinfo [command] --help" for more information about a command.
+    ```
 
 - list
 
@@ -39,6 +62,47 @@ List all images in the repository
 
 Show image details with layer(s) information.
 
+    - show solid layers
+    ```
+    $ ./diinfo show redis
+    No.	      Size	Command [/bin/sh -c]
+    ---	      ----	--------------------
+    1.	  30114519	#(nop) ADD file:e7ac45803c3ab9b7023933b75f5a88eda1f3edca97c7e462401860777cf312f7 ...
+    2.	      2086	groupadd -r redis && useradd -r -g redis redis
+    3.	    981699	set -ex; fetchDeps='ca-certificates wget'; apt-get update; apt-get install -y -- ...
+    4.	   8289389	set -ex; buildDeps=' wget gcc libc6-dev make '; apt-get update; apt-get install  ...
+    5.	        97	mkdir /data && chown redis:redis /data
+    6.	       402	#(nop) COPY file:9c29fbe8374a97f9c2d953c9c8b7224554607eeb7a610a930844f2bec678265 ...
+    ------------------
+    redis image size: 37.56 MB
+    ```
+
+    - show all layers
+    ```
+    $ ./diinfo show redis -a
+    No.	      Size	Command [/bin/sh -c]
+    ---	      ----	--------------------
+    1.	  30114519	#(nop) ADD file:e7ac45803c3ab9b7023933b75f5a88eda1f3edca97c7e462401860777cf312f7 ...
+    2.	         0	#(nop) CMD ["bash"]
+    3.	      2086	groupadd -r redis && useradd -r -g redis redis
+    4.	         0	#(nop) ENV GOSU_VERSION=1.10
+    5.	    981699	set -ex; fetchDeps='ca-certificates wget'; apt-get update; apt-get install -y -- ...
+    6.	         0	#(nop) ENV REDIS_VERSION=4.0.6
+    7.	         0	#(nop) ENV REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-4.0.6.tar. ...
+    8.	         0	#(nop) ENV REDIS_DOWNLOAD_SHA=769b5d69ec237c3e0481a262ff5306ce30db9b5c8ceb14d102 ...
+    9.	   8289389	set -ex; buildDeps=' wget gcc libc6-dev make '; apt-get update; apt-get install  ...
+    10.	        97	mkdir /data && chown redis:redis /data
+    11.	         0	#(nop) VOLUME [/data]
+    12.	         0	#(nop) WORKDIR /data
+    13.	       402	#(nop) COPY file:9c29fbe8374a97f9c2d953c9c8b7224554607eeb7a610a930844f2bec678265 ...
+    14.	         0	#(nop) ENTRYPOINT ["docker-entrypoint.sh"]
+    15.	         0	#(nop) EXPOSE 6379/tcp
+    16.	         0	#(nop) CMD ["redis-server"]
+    ------------------
+    redis image size: 37.56 MB
+    ```
+
+    - show all information
     ```
     $ ./diinfo info redis -j
     ---------- Manifest ----------
