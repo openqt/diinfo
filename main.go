@@ -30,6 +30,16 @@ func root() *cobra.Command {
 		"", "Docker registry address")
 	viper.BindPFlag(key, rootCmd.PersistentFlags().Lookup(key))
 
+	key = "username"
+	rootCmd.PersistentFlags().StringVarP(&inspector.Settings.Username, key, key[:1],
+		"", "Password")
+	viper.BindPFlag(key, rootCmd.PersistentFlags().Lookup(key))
+
+	key = "password"
+	rootCmd.PersistentFlags().StringVarP(&inspector.Settings.Password, key, key[:1],
+		"", "Password")
+	viper.BindPFlag(key, rootCmd.PersistentFlags().Lookup(key))
+
 	return &rootCmd
 }
 

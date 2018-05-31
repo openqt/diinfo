@@ -50,7 +50,9 @@ Docker Image Information Inspector
 
     Flags:
       -h, --help              help for diinfo
+      -p, --password string   Password
       -r, --registry string   Docker registry address
+      -u, --username string   Password
       -v, --verbose           Show logs
 
     Use "diinfo [command] --help" for more information about a command.

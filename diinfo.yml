@@ -1,4 +1,6 @@
 registry: http://t2cp.io:5000/
+username: openqt
+#password: ******
 json: false
 wide: 80
 all: true

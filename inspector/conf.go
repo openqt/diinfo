@@ -44,6 +44,8 @@ func Configuration() {
 	log.Printf("Configuration: %s\n", viper.ConfigFileUsed())
 
 	Settings.Registry = viper.GetString("registry")
+	Settings.Username = viper.GetString("username")
+	Settings.Password = viper.GetString("password")
 
 	if Settings.Verbose {
 		data, err := json.MarshalIndent(Settings, "", "  ")
