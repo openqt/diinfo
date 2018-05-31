@@ -8,10 +8,11 @@ Docker Image Information Inspector
 
     - Content
     ```
-    verbose: false
     registry: http://t2cp.io:5000/
     json: false
     wide: 80
+    all: true
+
     ```
 
 ## Docker
@@ -42,6 +43,7 @@ Docker Image Information Inspector
       diinfo [command]
 
     Available Commands:
+      del         Delete image(s)
       help        Help about any command
       ls          List images in docker registry
       show        Show docker image internals
@@ -52,6 +54,7 @@ Docker Image Information Inspector
       -v, --verbose           Show logs
 
     Use "diinfo [command] --help" for more information about a command.
+
     ```
 
 - list
@@ -203,10 +206,6 @@ Show image details with layer(s) information.
           "created_by": "/bin/sh -c #(nop)  CMD [\"bash\"]",
           "empty_layer": true
         },
-        {
-          "created": "2017-12-12T07:11:57.725222924Z",
-          "created_by": "/bin/sh -c groupadd -r redis \u0026\u0026 useradd -r -g redis redis"
-        },
         ...
       ],
       "os": "linux",
@@ -221,3 +220,7 @@ Show image details with layer(s) information.
     }
     ```
 
+- del
+
+The delete command is not fully implemented by the backend registry:2.
+It just deletes image manifest file.

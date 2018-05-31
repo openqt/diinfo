@@ -11,7 +11,6 @@ func root() *cobra.Command {
 	viper.SetConfigName("diinfo")
 	viper.AddConfigPath("/etc/diinfo")
 	viper.AddConfigPath(".")
-	inspector.CheckError(viper.ReadInConfig())
 
 	rootCmd := cobra.Command{
 		Use:   "diinfo",
@@ -73,11 +72,23 @@ func info() *cobra.Command {
 	return &infoCmd
 }
 
+func del() *cobra.Command {
+	delCmd := cobra.Command{
+		Use:   "del",
+		Short: "Delete image(s)",
+		Run: func(cmd *cobra.Command, args []string) {
+			inspector.DelImages(args)
+		},
+	}
+	return &delCmd
+}
+
 func main() {
 	rootCmd := root()
 	rootCmd.AddCommand(
 		ls(),
 		info(),
+		del(),
 	)
 
 	if err := rootCmd.Execute(); err != nil {

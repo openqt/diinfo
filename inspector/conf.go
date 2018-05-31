@@ -27,17 +27,20 @@ var Settings Setting
 
 func CheckError(err error) {
 	if err != nil {
+		fmt.Println("ERROR:", err.Error())
 		log.Fatal(err)
 	}
 }
 
 func Configuration() {
-	Settings.Verbose = viper.GetBool("verbose")
 	if !Settings.Verbose {
 		log.SetFlags(0)
 		log.SetOutput(ioutil.Discard)
 	}
 
+	if err := viper.ReadInConfig(); err != nil {
+		log.Println(err)
+	}
 	log.Printf("Configuration: %s\n", viper.ConfigFileUsed())
 
 	Settings.Registry = viper.GetString("registry")
