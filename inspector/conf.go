@@ -53,7 +53,7 @@ func Configuration() {
 		fmt.Println(string(data))
 	}
 
-	hub, err := registry.New(Settings.Registry, Settings.Username, Settings.Password)
+	hub, err := registry.NewInsecure(Settings.Registry, Settings.Username, Settings.Password)
 	CheckError(err)
 	Settings.hub = hub
 
