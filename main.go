@@ -54,7 +54,7 @@ func ls() *cobra.Command {
 	return &listCmd
 }
 
-func info() *cobra.Command {
+func show() *cobra.Command {
 	infoCmd := cobra.Command{
 		Use:   "show",
 		Short: "Show docker image internals",
@@ -97,7 +97,7 @@ func main() {
 	rootCmd := root()
 	rootCmd.AddCommand(
 		ls(),
-		info(),
+		show(),
 		del(),
 	)
 
