@@ -1,37 +1,37 @@
 {
 	"ImportPath": "github.com/openqt/diinfo",
-	"GoVersion": "go1.10",
+	"GoVersion": "go1.11",
 	"GodepVersion": "v79",
 	"Deps": [
 		{
 			"ImportPath": "github.com/docker/distribution",
-			"Comment": "v2.6.0-rc.1-282-gf0cc9277",
-			"Rev": "f0cc927784781fa395c06317c58dea2841ece3a9"
+			"Comment": "v2.7.0-rc.0-4-g1cb4180b",
+			"Rev": "1cb4180b1a5b9c029b2f2beaeb38f0b5cf64e12e"
 		},
 		{
 			"ImportPath": "github.com/docker/distribution/digestset",
-			"Comment": "v2.6.0-rc.1-282-gf0cc9277",
-			"Rev": "f0cc927784781fa395c06317c58dea2841ece3a9"
+			"Comment": "v2.7.0-rc.0-4-g1cb4180b",
+			"Rev": "1cb4180b1a5b9c029b2f2beaeb38f0b5cf64e12e"
 		},
 		{
 			"ImportPath": "github.com/docker/distribution/manifest",
-			"Comment": "v2.6.0-rc.1-282-gf0cc9277",
-			"Rev": "f0cc927784781fa395c06317c58dea2841ece3a9"
+			"Comment": "v2.7.0-rc.0-4-g1cb4180b",
+			"Rev": "1cb4180b1a5b9c029b2f2beaeb38f0b5cf64e12e"
 		},
 		{
 			"ImportPath": "github.com/docker/distribution/manifest/schema1",
-			"Comment": "v2.6.0-rc.1-282-gf0cc9277",
-			"Rev": "f0cc927784781fa395c06317c58dea2841ece3a9"
+			"Comment": "v2.7.0-rc.0-4-g1cb4180b",
+			"Rev": "1cb4180b1a5b9c029b2f2beaeb38f0b5cf64e12e"
 		},
 		{
 			"ImportPath": "github.com/docker/distribution/manifest/schema2",
-			"Comment": "v2.6.0-rc.1-282-gf0cc9277",
-			"Rev": "f0cc927784781fa395c06317c58dea2841ece3a9"
+			"Comment": "v2.7.0-rc.0-4-g1cb4180b",
+			"Rev": "1cb4180b1a5b9c029b2f2beaeb38f0b5cf64e12e"
 		},
 		{
 			"ImportPath": "github.com/docker/distribution/reference",
-			"Comment": "v2.6.0-rc.1-282-gf0cc9277",
-			"Rev": "f0cc927784781fa395c06317c58dea2841ece3a9"
+			"Comment": "v2.7.0-rc.0-4-g1cb4180b",
+			"Rev": "1cb4180b1a5b9c029b2f2beaeb38f0b5cf64e12e"
 		},
 		{
 			"ImportPath": "github.com/docker/libtrust",
@@ -84,7 +84,7 @@
 		},
 		{
 			"ImportPath": "github.com/heroku/docker-registry-client/registry",
-			"Rev": "fd2fe803496897db70c236ee244f41487ea92ec2"
+			"Rev": "47ecf50fd8d4fba87593c00ca0959029c7d6b95c"
 		},
 		{
 			"ImportPath": "github.com/inconshreveable/mousetrap",
@@ -97,22 +97,13 @@
 			"Rev": "49d762b9817ba1c2e9d0c69183c2b4a8b8f1d934"
 		},
 		{
-			"ImportPath": "github.com/mattn/go-runewidth",
-			"Comment": "v0.0.2-3-g97311d9",
-			"Rev": "97311d9f7767e3d6f422ea06661bc2c7a19e8a5d"
-		},
-		{
 			"ImportPath": "github.com/mitchellh/mapstructure",
 			"Rev": "b4575eea38cca1123ec2dc90c26529b5c5acfcff"
 		},
 		{
-			"ImportPath": "github.com/olekukonko/tablewriter",
-			"Rev": "b8a9be070da40449e501c3c4730a889e42d87a9e"
-		},
-		{
 			"ImportPath": "github.com/opencontainers/go-digest",
-			"Comment": "v1.0.0-rc1",
-			"Rev": "279bed98673dd5bef374d3b6e4b09e2af76183bf"
+			"Comment": "v1.0.0-rc1-2-gc928146",
+			"Rev": "c9281466c8b2f606084ac71339773efd177436e7"
 		},
 		{
 			"ImportPath": "github.com/pelletier/go-toml",
@@ -121,8 +112,8 @@
 		},
 		{
 			"ImportPath": "github.com/sirupsen/logrus",
-			"Comment": "v1.0.4-2-g768a92a",
-			"Rev": "768a92a02685ee7535069fc1581341b41bab9b72"
+			"Comment": "v1.1.1-16-g4fabf2f",
+			"Rev": "4fabf2fffcecfd47f802869b7b92d75e43c5a095"
 		},
 		{
 			"ImportPath": "github.com/spf13/afero",
@@ -159,24 +150,18 @@
 			"Rev": "15738813a09db5c8e5b60a19d67d3f9bd38da3a4"
 		},
 		{
-			"ImportPath": "golang.org/x/crypto/ssh/terminal",
-			"Rev": "5119cf507ed5294cc409c092980c7497ee5d6fd2"
-		},
-		{
 			"ImportPath": "golang.org/x/sys/unix",
-			"Rev": "37707fdb30a5b38865cfb95e5aab41707daec7fd"
-		},
-		{
-			"ImportPath": "golang.org/x/sys/windows",
-			"Rev": "37707fdb30a5b38865cfb95e5aab41707daec7fd"
+			"Rev": "44b849a8bc13eb42e95e6c6c5e360481b73ec710"
 		},
 		{
 			"ImportPath": "golang.org/x/text/transform",
-			"Rev": "4e4a3210bb54bb31f6ab2cdca2edcc0b50c420c1"
+			"Comment": "v0.3.0-63-g4d1c5fb",
+			"Rev": "4d1c5fb19474adfe9562c9847ba425e7da817e81"
 		},
 		{
 			"ImportPath": "golang.org/x/text/unicode/norm",
-			"Rev": "4e4a3210bb54bb31f6ab2cdca2edcc0b50c420c1"
+			"Comment": "v0.3.0-63-g4d1c5fb",
+			"Rev": "4d1c5fb19474adfe9562c9847ba425e7da817e81"
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v2",

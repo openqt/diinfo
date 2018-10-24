@@ -8,6 +8,8 @@ import (
     "io/ioutil"
     "regexp"
     "strings"
+    "github.com/spf13/cobra"
+    "github.com/spf13/viper"
 )
 
 type Config struct {
@@ -40,7 +42,7 @@ type FullConfig struct {
 }
 
 func getConfig(repo string, digest digest.Digest) []byte {
-    reader, err := Settings.hub.DownloadLayer(repo, digest)
+    reader, err := Settings.hub.DownloadBlob(repo, digest)
     CheckError(err)
     data, err := ioutil.ReadAll(reader)
     CheckError(err)
@@ -135,4 +137,32 @@ func ShowInfo(args []string) {
             fmt.Printf("%s image size: %.2f MB\n\n", arg, float64(total)/1024/1024)
         }
     }
+}
+
+func init() {
+    infoCmd := &cobra.Command{
+        Use:   "show",
+        Short: "Show docker image internals",
+        Args:  cobra.MinimumNArgs(1),
+        Run: func(cmd *cobra.Command, args []string) {
+            ShowInfo(args)
+        },
+    }
+
+    key := "json"
+    infoCmd.PersistentFlags().BoolVarP(&Settings.Json, key, key[:1],
+        false, "Show data in JSON style")
+    viper.BindPFlag(key, infoCmd.PersistentFlags().Lookup(key))
+
+    key = "wide"
+    infoCmd.PersistentFlags().IntVarP(&Settings.Wide, key, key[:1],
+        0, "Length of command line (0 is no limited)")
+    viper.BindPFlag(key, infoCmd.PersistentFlags().Lookup(key))
+
+    key = "all"
+    infoCmd.PersistentFlags().BoolVarP(&Settings.All, key, key[:1],
+        false, "Show zero size layers")
+    viper.BindPFlag(key, infoCmd.PersistentFlags().Lookup(key))
+
+    rootCmd.AddCommand(infoCmd)
 }
